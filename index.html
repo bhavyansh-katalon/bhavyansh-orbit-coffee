@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orbit Coffee</title>
+<!-- TRUETEST AGENT: paste the snippet from True Platform on the next line -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F2F0FA;--ink:#191632;--muted:#5C5878;--crema:#C8861A;--violet:#5B52C9;--violet-soft:#E6E3FA;--line:#DAD6EC;--card:#FFFFFF;--error:#B42318;--ok:#1F7A4D}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Manrope',system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:17px;line-height:1.55}
+h1,h2,h3{font-family:'Syne',sans-serif;line-height:1.08;letter-spacing:-.01em}
+a{color:var(--violet)}
+:focus-visible{outline:3px solid var(--crema);outline-offset:3px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+/* header */
+.top{position:sticky;top:0;z-index:20;background:rgba(242,240,250,.94);backdrop-filter:blur(8px);border-bottom:2px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:26px;height:72px}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px;margin-right:auto}
+.logo i{width:22px;height:22px;border-radius:50%;border:3px solid var(--ink);position:relative}
+.logo i::after{content:"";position:absolute;width:8px;height:8px;border-radius:50%;background:var(--crema);top:-6px;right:-6px}
+.nav{display:flex;gap:22px;align-items:center}
+.nav a{color:var(--ink);text-decoration:none;font-weight:500}
+.nav a[aria-current="page"]{color:var(--violet)}
+.cart-link{background:var(--ink);color:#fff!important;padding:8px 16px;border-radius:999px;font-weight:700!important}
+.cart-count{display:inline-block;min-width:22px;text-align:center;background:var(--crema);color:var(--ink);border-radius:999px;margin-left:6px;font-size:.85rem;padding:0 6px}
+.menu-btn{display:none;background:none;border:2px solid var(--ink);border-radius:10px;padding:6px 10px;font:inherit;cursor:pointer}
+main{padding:34px 0 90px;min-height:72vh}
+/* buttons and forms */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--ink);color:#fff;border:0;border-radius:999px;padding:13px 24px;font:700 1rem 'Manrope',sans-serif;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--violet)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--ink)}
+.btn.ghost:hover{background:var(--violet-soft)}
+.btn.danger{background:var(--error)}
+.btn.sm{padding:8px 16px;font-size:.92rem}
+.btn.full{width:100%}
+.link{background:none;border:0;color:var(--violet);font:inherit;text-decoration:underline;cursor:pointer}
+.field{margin-bottom:16px}
+.lbl{display:block;font-weight:700;margin-bottom:6px}
+.txt,select.txt,textarea.txt{width:100%;font:inherit;padding:12px 14px;border:2px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
+.txt:focus{border-color:var(--violet);outline:none}
+.err{color:var(--error);font-size:.9rem;min-height:1.3em;margin-top:4px}
+.invalid .txt{border-color:var(--error)}
+.hint{color:var(--muted);font-size:.9rem;margin-top:4px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.pills{display:flex;gap:8px;flex-wrap:wrap}
+.pill{border:2px solid var(--line);border-radius:999px;padding:8px 16px;cursor:pointer;background:var(--card);font:inherit;color:var(--ink)}
+.pill[aria-pressed="true"]{border-color:var(--ink);font-weight:700}
+.legend{font-weight:700;margin-bottom:8px}
+.muted{color:var(--muted)}
+.page-title{font-size:clamp(2.1rem,5vw,3.3rem);font-weight:800;margin-bottom:10px}
+.lead{color:var(--muted);margin-bottom:28px;max-width:58ch;font-size:1.08rem}
+.panel{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:24px}
+.crumbs{font-size:.92rem;margin-bottom:18px;color:var(--muted)}
+/* bag illustration */
+.bag{aspect-ratio:4/5;border-radius:18px 18px 26px 26px;position:relative;display:flex;align-items:flex-end;padding:18px;color:#fff;overflow:hidden}
+.bag::before{content:"";position:absolute;top:0;left:12%;right:12%;height:12%;background:rgba(255,255,255,.18);border-radius:0 0 12px 12px}
+.bag::after{content:"";position:absolute;width:58%;aspect-ratio:1;border-radius:50%;border:3px solid rgba(255,255,255,.55);top:22%;left:21%}
+.bag span{position:relative;z-index:1;font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;line-height:1.1}
+/* home */
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;padding:20px 0 50px}
+.hero h1{font-size:clamp(2.8rem,7.5vw,5.4rem);font-weight:800}
+.hero p{margin:20px 0 30px;max-width:44ch;color:var(--muted);font-size:1.15rem}
+.hero .actions{display:flex;gap:12px;flex-wrap:wrap}
+.orbit{aspect-ratio:1;position:relative;max-width:430px;justify-self:center;width:100%}
+.orbit .ring{position:absolute;inset:6%;border:2px dashed #C9C3E6;border-radius:50%}
+.orbit .cup{position:absolute;inset:29%;border-radius:50%;background:radial-gradient(circle,#6B3E16 0 52%,#8A5523 53% 60%,#fff 61%);box-shadow:0 20px 40px rgba(25,22,50,.18)}
+.orbit .bean{position:absolute;inset:6%;animation:spin 16s linear infinite}
+.orbit .bean::before{content:"";position:absolute;top:-14px;left:50%;width:24px;height:32px;margin-left:-12px;border-radius:50%;background:var(--crema);transform:rotate(30deg)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.orbit .bean{animation:none}}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:10px 0 56px;counter-reset:s}
+.steps li{list-style:none;background:var(--card);border:2px solid var(--line);border-radius:20px;padding:22px;counter-increment:s}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--ink);color:#fff;font-weight:700;margin-bottom:12px}
+.steps h3{font-size:1.15rem;margin-bottom:6px}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:18px}
+.section-head h2{font-size:1.9rem}
+/* products */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px}
+.product{display:flex;flex-direction:column;gap:10px}
+.product a.cover{text-decoration:none}
+.product h3{font-size:1.15rem}
+.product h3 a{color:var(--ink);text-decoration:none}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.roast{display:flex;gap:3px}.roast i{width:14px;height:6px;border-radius:3px;background:var(--line)}.roast i.on{background:var(--ink)}
+.toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:22px}
+.toolbar .txt{max-width:280px}
+.toolbar select.txt{width:auto}
+.empty{padding:40px;text-align:center;border:2px dashed var(--line);border-radius:20px;color:var(--muted)}
+.empty h2{color:var(--ink);margin-bottom:8px;font-size:1.5rem}
+/* detail */
+.detail{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:start}
+.detail h1{font-size:clamp(2.2rem,5vw,3.4rem);font-weight:800}
+.notes{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.notes span{background:var(--violet-soft);border-radius:999px;padding:4px 12px;font-size:.92rem;font-weight:500}
+.opt{margin:22px 0}
+.qty{display:inline-flex;align-items:center;border:2px solid var(--line);border-radius:999px;background:#fff}
+.qty button{background:none;border:0;width:40px;height:40px;font-size:1.2rem;cursor:pointer;color:var(--ink)}
+.qty input{width:44px;text-align:center;border:0;font:inherit;background:transparent}
+.price-line{font-size:1.5rem;font-weight:700;margin:20px 0}
+.notice{background:var(--violet-soft);border-radius:14px;padding:12px 16px;margin-top:16px}
+/* cart */
+.cart{display:grid;grid-template-columns:1.5fr 1fr;gap:36px;align-items:start}
+.line{display:grid;grid-template-columns:72px 1fr auto;gap:16px;align-items:center;padding:16px 0;border-bottom:2px solid var(--line)}
+.line .bag{aspect-ratio:1;padding:0;border-radius:14px}
+.line .bag::after{width:46%;top:27%;left:27%}
+.line h3{font-size:1.05rem}
+.sum dl{display:grid;grid-template-columns:1fr auto;gap:8px 16px;margin-bottom:18px}
+.sum dt{color:var(--muted)}.sum .grand{font-weight:700;font-size:1.2rem;color:var(--ink)}
+.promo{display:flex;gap:8px;margin-bottom:6px}
+/* checkout */
+.stepper{display:flex;gap:8px;list-style:none;margin-bottom:24px;flex-wrap:wrap}
+.stepper li{padding:7px 16px;border-radius:999px;background:#E3DFF3;color:var(--muted);font-weight:700;font-size:.92rem}
+.stepper li.now{background:var(--ink);color:#fff}.stepper li.done{background:var(--violet-soft);color:var(--violet)}
+.choice{display:flex;gap:14px;align-items:center;border:2px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:10px;cursor:pointer;background:#fff;width:100%;font:inherit;color:inherit;text-align:left}
+.choice[aria-pressed="true"]{border-color:var(--ink)}
+.choice b{margin-left:auto}
+/* confirm / account */
+.done{text-align:center;padding:30px 0}
+.done h1{font-size:clamp(2.4rem,6vw,4rem);font-weight:800}
+.done p{margin:16px auto 28px;max-width:48ch;color:var(--muted)}
+.account{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.sub{display:flex;flex-direction:column;gap:12px}
+.badge{display:inline-block;padding:3px 12px;border-radius:999px;font-size:.85rem;font-weight:700;background:var(--violet-soft);color:var(--violet)}
+.badge.paused{background:#FBEFD9;color:#8A5A0B}.badge.cancelled{background:#FBE4E2;color:var(--error)}
+.list{list-style:none}.list li{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:2px solid var(--line)}
+.list li:last-child{border-bottom:0}
+.auth{max-width:440px;margin:0 auto}
+/* guides */
+.guides{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
+.guide-card{text-decoration:none;color:inherit;display:block}
+.guide-card .panel{height:100%}
+.guide-card h3{font-size:1.3rem;margin:10px 0 6px}
+.guide-card:hover .panel{border-color:var(--violet)}
+.recipe{display:flex;gap:24px;flex-wrap:wrap;margin:18px 0 26px}
+.recipe div{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:10px 16px}
+.recipe b{display:block;font-size:1.2rem}
+ol.method{padding-left:22px;max-width:62ch}ol.method li{margin-bottom:10px}
+details{border-bottom:2px solid var(--line);padding:14px 0}
+summary{cursor:pointer;font-weight:700}
+details p{margin-top:8px;color:var(--muted)}
+/* modal + toast */
+.overlay{position:fixed;inset:0;background:rgba(25,22,50,.45);display:grid;place-items:center;padding:20px;z-index:50}
+.modal{background:#fff;border-radius:20px;padding:26px;width:min(460px,100%)}
+.modal h2{font-size:1.4rem;margin-bottom:8px}
+.modal .actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 20px;border-radius:999px;font-weight:700;z-index:60}
+footer{border-top:2px solid var(--line);padding:30px 0;color:var(--muted);font-size:.92rem}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+footer a{color:var(--muted);margin-right:16px}
+@media (max-width:860px){
+  .hero,.detail,.cart,.account{grid-template-columns:1fr}.steps{grid-template-columns:1fr}.row2{grid-template-columns:1fr}
+  .menu-btn{display:block}.nav{display:none;position:absolute;top:72px;left:0;right:0;background:var(--bg);flex-direction:column;align-items:flex-start;padding:16px 24px;border-bottom:2px solid var(--line)}
+  .nav.open{display:flex}.orbit{max-width:270px}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a href="/" class="logo" id="nav-home" data-link><i aria-hidden="true"></i>Orbit Coffee</a>
+    <button class="menu-btn" id="menu-toggle" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    <nav class="nav" id="main-nav" aria-label="Main">
+      <a href="/shop" id="nav-shop" data-link>Shop</a>
+      <a href="/guides" id="nav-guides" data-link>Brew guides</a>
+      <a href="/contact" id="nav-contact" data-link>Contact</a>
+      <a href="/account" id="nav-account" data-link>Account</a>
+      <a href="/cart" class="cart-link" id="nav-cart" data-link>Cart<span class="cart-count" id="cart-count">0</span></a>
+    </nav>
+  </div>
+</header>
+<main><div class="wrap" id="app" tabindex="-1"></div></main>
+<footer>
+  <div class="wrap">
+    <div><a href="/shop" data-link>Shop</a><a href="/guides" data-link>Brew guides</a><a href="/contact" data-link>Contact</a><a href="/faq" id="footer-faq" data-link>FAQ</a></div>
+    <div>Orbit Coffee is a demo app for TrueTest training. No real orders are placed.</div>
+  </div>
+</footer>
+<div id="layer"></div>
+<script src="/app.js"></script>
+</body>
+</html>
