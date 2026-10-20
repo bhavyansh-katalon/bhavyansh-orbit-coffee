@@ -158,7 +158,7 @@ const pages = {
           <div class="field" id="promo-code-field"><label class="lbl" for="promo-code">Promo code</label>
             <div class="promo"><input class="txt" id="promo-code" placeholder="ORBIT10" value="${S.promo || ""}"><button class="btn ghost sm" id="apply-promo">Apply</button></div>
             <div class="err" id="promo-code-error"></div></div>
-          <a href="/checkout" class="btn full" id="go-checkout" data-link>Go to checkout</a>
+          <a href="/checkout" class="btn full checkout-link" data-link>Go to checkout</a>
         </aside>
       </div>`;
   },
@@ -175,7 +175,7 @@ const pages = {
         ${field("shipping-email", "Email", { type: "email", ac: "email", value: sh.email || "", hint: S.user ? "" : "Use the same email as your account to see this order there." })}
         ${field("shipping-address", "Street address", { ac: "street-address", value: sh.address || "" })}
         <div class="row2">${field("shipping-city", "City", { ac: "address-level2", value: sh.city || "" })}${field("shipping-postcode", "Postcode", { ac: "postal-code", value: sh.postcode || "" })}</div>
-        <button class="btn" id="continue-delivery">Continue to delivery</button></form>`;
+        <button class="btn btn-primary" id="continue-delivery">Continue to delivery</button></form>`;
     const step2 = `<h2 style="font-size:1.4rem;margin-bottom:16px">How fast?</h2>
         ${Object.entries(DELIVERY).map(([k, d]) => `<button class="choice" id="delivery-${k}" aria-pressed="${checkout.delivery === k}" data-delivery="${k}"><span>${d.label}</span><b>${money(d.price)}</b></button>`).join("")}
         <div style="display:flex;gap:10px;margin-top:16px"><button class="btn ghost" id="back-shipping">Back</button><button class="btn" id="continue-payment">Continue to payment</button></div>`;
@@ -183,7 +183,7 @@ const pages = {
         <h2 style="font-size:1.4rem;margin-bottom:16px">Payment</h2>
         ${field("payment-card", "Card number", { cls: "katalon-excluded", hint: "Demo: any 16 digits" })}
         <div class="row2">${field("payment-expiry", "Expiry (MM/YY)", { cls: "katalon-excluded" })}${field("payment-security", "Security code", { cls: "katalon-excluded" })}</div>
-        <div style="display:flex;gap:10px"><button type="button" class="btn ghost" id="back-delivery">Back</button><button class="btn" id="place-order">Place order · ${money(total)}</button></div></form>`;
+        <div style="display:flex;gap:10px"><button type="button" class="btn ghost" id="back-delivery">Back</button><button class="btn" id="place-order">Confirm and pay · ${money(total)}</button></div></form>`;
     return `<h1 class="page-title">Checkout</h1>
       <ol class="stepper" aria-label="Checkout progress">${["Shipping", "Delivery", "Payment"].map((n, i) => `<li class="${i + 1 === st ? "now" : i + 1 < st ? "done" : ""}" ${i + 1 === st ? 'aria-current="step"' : ""}>${i + 1}. ${n}</li>`).join("")}</ol>
       <div class="cart"><section class="panel">${[step1, step2, step3][st - 1]}</section>
@@ -288,7 +288,7 @@ function renderDetail() {
           <select class="txt" id="subscription-frequency" style="max-width:260px">${Object.entries(FREQ).map(([k, v]) => `<option value="${k}" ${p.freq === k ? "selected" : ""}>${v}</option>`).join("")}</select>` : ""}</div>
       <div class="qty" aria-label="Quantity"><button id="quantity-minus" aria-label="One fewer">−</button><input id="quantity-input" aria-label="Quantity" value="${p.qty}" readonly><button id="quantity-plus" aria-label="One more">+</button></div>
       <p class="price-line" id="detail-price" aria-live="polite">${money(price * p.qty)}${p.plan === "subscribe" ? ` <small class="muted">per delivery</small>` : ""}</p>
-      <button class="btn" id="add-cart">Add to cart</button>
+      <button class="btn" id="add-bag">Add to bag</button>
       <div id="added-notice"></div></div>`;
 }
 
@@ -339,11 +339,11 @@ document.addEventListener("click", e => {
   if (d.plan) { pick.plan = d.plan; renderDetail(); }
   if (t.id === "quantity-minus") { pick.qty = Math.max(1, pick.qty - 1); renderDetail(); }
   if (t.id === "quantity-plus") { pick.qty = Math.min(10, pick.qty + 1); renderDetail(); }
-  if (t.id === "add-cart") {
+  if (t.id === "add-bag") {
     const same = S.cart.find(l => l.slug === pick.slug && l.grind === pick.grind && l.size === pick.size && l.plan === pick.plan && (l.plan === "once" || l.freq === pick.freq));
     same ? same.qty = Math.min(10, same.qty + pick.qty) : S.cart.push({ slug: pick.slug, grind: pick.grind, size: pick.size, plan: pick.plan, freq: pick.freq, qty: pick.qty });
     save();
-    $("added-notice").innerHTML = `<div class="notice" role="status">Added to your cart. <a href="/cart" id="view-cart" data-link>View cart</a> or <a href="/shop" id="continue-shopping" data-link>keep shopping</a>.</div>`;
+    $("added-notice").innerHTML = `<div class="notice" role="status">Added to your cart. <span class="notice-actions"><a href="/cart" id="view-cart" data-link>View cart</a></span> or <a href="/shop" id="continue-shopping" data-link>keep shopping</a>.</div>`;
   }
   // cart
   if (d.minus) { const l = S.cart[+d.minus]; l.qty > 1 ? l.qty-- : S.cart.splice(+d.minus, 1); save(); render(); }
@@ -413,5 +413,7 @@ function placeOrder() {
   S.cart = []; S.promo = null; checkout = { step: 1, shipping: {}, delivery: "standard" };
   save(); go("/confirmed");
 }
+document.body.dataset.version = "2";
+document.querySelector("footer .wrap div:last-child").textContent = "Orbit Coffee v2 is a demo app for TrueTest training. No real orders are placed.";
 window.addEventListener("popstate", render);
 render();
